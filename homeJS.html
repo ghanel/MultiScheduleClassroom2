@@ -1,0 +1,111 @@
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#processing').show();
+        document.getElementById("submitBtn").addEventListener("click", run);
+        M.updateTextFields()
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+        document.getElementById("course").addEventListener("change", function (e) {
+            $('#processing').show();
+            getScheduledPosts(e.target.value)
+        });
+        $('#processing').hide();
+    });
+
+
+    function run() {
+        $('#processing').show();
+        var assignments = [].filter.call(document.getElementsByName('postSelection[]'), (c) => c.checked).map(c => c
+            .value + ":" + c.id);
+        console.log(assignments)
+        var elem = document.getElementById('newCourses')
+        var instance = M.FormSelect.getInstance(elem)
+        var courses = instance.getSelectedValues()
+        console.log(courses)
+        var elem = document.getElementById('course')
+        var originalClassroom = elem.value
+        console.log(originalClassroom)
+        google.script.run.withSuccessHandler(success).withFailureHandler(failure).processCopy(assignments, courses,
+            originalClassroom)
+    }
+
+    function getScheduledPosts(classroomId) {
+        google.script.run.withSuccessHandler(makePostTable).getScheduledPosts(classroomId)
+        document.getElementById("course").disabled
+    }
+
+    function postType(workType) {
+        switch (workType) {
+            case "ASSIGNMENT":
+                return "Assignment";
+            case "SHORT_ANSWER_QUESTION":
+                return "Short Answer Question";
+            case "MULTIPLE_CHOICE_QUESTION":
+                return "Multiple Choice Question";
+            case "ANNOUNCEMENT":
+                return "Announcement";
+        }
+    }
+
+    function makePostTable(posts) {
+        console.log(posts)
+        if (posts[0].id == "No scheduled assignments") {
+            document.getElementById("postTable").style.display = "none"
+            document.getElementById("noPosts").style.display = "block"
+            document.getElementById("newCourseDiv").style.display = "none"
+        } else {
+            document.getElementById("noPosts").style.display = "none"
+            document.getElementById("postTable").style.display = "block"
+            document.getElementById("newCourseDiv").style.display = "block"
+            var tableBody = document.getElementById("post-table-body")
+            tableBody.innerHTML = ""
+            posts.forEach(post => {
+                var type = postType(post.workType)
+                var row = document.createElement('tr');
+                var col1 = document.createElement('td');
+                var col2 = document.createElement('td');
+                var col3 = document.createElement('td');
+                var col4 = document.createElement('td');
+                if (type == "Announcement") {
+                    col1.innerText = post.text
+                } else {
+                    col1.innerText = post.title
+                }
+                col2.innerText = type
+                col3.innerText = post.scheduledTime
+                var label4 = document.createElement('label')
+                var input4 = document.createElement('input')
+                input4.type = "checkbox"
+                input4.id = post.id
+                input4.value = post.workType
+                input4.class = "filled-in"
+                input4.name = "postSelection[]"
+                var span4 = document.createElement('span')
+                label4.appendChild(input4)
+                label4.appendChild(span4)
+                col4.appendChild(label4)
+                row.appendChild(col1);
+                row.appendChild(col2);
+                row.appendChild(col3);
+                row.appendChild(col4);
+                tableBody.appendChild(row);
+            })
+        }
+        $('#processing').hide();
+    }
+
+    function success() {
+        M.toast({
+            html: "Posts have been copied!"
+        });
+        $('#processing').hide();
+        //      resetForm()
+    }
+
+    function failure(e) {
+        M.toast({
+            html: 'Something has gone wrong.  Please contact IT: ' + e
+        });
+        $('#processing').hide();
+    }
+</script>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width-device, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <?!= include("homeCSS"); ?>
+</head>
+
+<body>
+  <div class="container">
+    <div id="processing" class="progress">
+      <div class="indeterminate"></div>
+    </div>
+    <div class="row">
+      <div style="text-align: center;">
+        <H5>Multi-schedule to Google Classroom</H5><br>
+        You must schedule your post to one classroom first. Then chose your course from the dropdown. Any scheduled
+        assignments or announcements will show. Select which you want to repost, then select the Classrooms which they
+        should be scheduled on.
+      </div>
+    </div><!--   close row ---->
+    <div class="row">
+      <div class="input-field col s12">
+        <select id="course">
+          <option value="" disabled selected>Choose the Classroom where you have scheduled a post</option>
+          <?!= courses ?>
+        </select>
+        <label>Select your starter Classroom</label>
+      </div>
+    </div><!--   close row ---->
+    <div class="row">
+      <div id="postTable" style="display:none">
+        <table class="highlight centered">
+          <thead>
+            <tr>
+              <th>Post Title</th>
+              <th>Type</th>
+              <th>Scheduled Time</th>
+              <th>Select</th>
+            </tr>
+          </thead>
+          <tbody id="post-table-body">
+          </tbody>
+        </table>
+      </div>
+      <div id="noPosts" style="display:none">
+        This classroom has no scheduled posts
+      </div>
+    </div><!--   close row ---->
+    <div class="row">
+      <div id="newCourseDiv" style="display:none">
+        <div class="input-field col s12">
+          <select multiple id="newCourses">
+            <?!= courses ?>
+          </select>
+          <label>Select the Classrooms you wish to copy to</label>
+        </div>
+      </div>
+    </div><!--   close row ---->
+    <div class="row">
+      <div style="text-align: center">
+        <button id="submitBtn" class="waves-effect waves-light btn "><i
+            class="material-icons right">chevron_right</i>Copy</button>
+      </div>
+    </div><!--   close row ---->
+  </div> <!-- close container - -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"> </script>
+  <script src="https://code.jquery.com/jquery.min.js"></script>
+  <?!= include ("homeJS"); ?>
+</body>
+
+</html>
