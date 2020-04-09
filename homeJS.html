@@ -99,7 +99,9 @@
             html: "Posts have been copied!"
         });
         $('#processing').hide();
-        //      resetForm()
+        document.getElementById("postTable").style.display = "none"
+        document.getElementById("noPosts").style.display = "none"
+        document.getElementById("newCourseDiv").style.display = "none"
     }
 
     function failure(e) {

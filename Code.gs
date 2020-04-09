@@ -11,6 +11,11 @@
 //
 // NB: Scheduling announcements via the API appears to be broken so that code is commented out
 //
+// Code is published to github to report any issues https://github.com/ghanel/MultiScheduleClassroom
+//
+// gavin@id3.org.uk
+// @gavinhanel
+//
 //
 
 function doGet(e) {
