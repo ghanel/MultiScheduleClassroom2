@@ -22,16 +22,20 @@ function getTopic(classroomId, topicName) {
     }
     while (nextPageToken != undefined)
     if (topics) { //if the classroom has topics
+      Logger.log("Classroom has topics")
       let topicId = topics.filter(t => t["name"] == topicName)
       if (topicId.length > 0) { //if the classroom has a topic with the name that we need
+        Logger.log("Classroom has the topic with name: " + topicName)
         return topicId[0].topicId
       } else { //if the classroom has topics but not the one we need
+        Logger.log("Creating the topic with name: " + topicName)
         let topicId = Classroom.Courses.Topics.create({
           "name": topicName
         }, classroomId)
         return topicId.topicId
       }
     } else { //if the classroom has no topics
+      Logger.log("Creating the topic with name: " + topicName)
       let topicId = Classroom.Courses.Topics.create({
         "name": topicName
       }, classroomId)

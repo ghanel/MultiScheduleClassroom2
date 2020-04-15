@@ -4,6 +4,7 @@ function getAssignment(assignmentId, classroomId) {
 
 function duplicateAssignments(assignmentId, originalClassroom, classrooms) {
   let assignmentTBS = getAssignment(assignmentId, originalClassroom)
+  Logger.log(assignmentTBS)
   if (assignmentTBS.topicId) {
     var topicName = getTopicName(assignmentTBS.courseId, assignmentTBS.topicId)
     Logger.log(topicName)
@@ -18,7 +19,15 @@ function duplicateAssignments(assignmentId, originalClassroom, classrooms) {
       assignment["description"] = assignmentTBS.description //optional
     }
     if (assignmentTBS.materials) {
-      assignment["materials"] = assignmentTBS.materials //optional
+      var materials = []
+      for (var i=0; i<assignmentTBS.materials.length; i++){
+        if (assignmentTBS.materials[i].hasOwnProperty('driveFile') || assignmentTBS.materials[i].hasOwnProperty('youtubeVideo') || assignmentTBS.materials[i].hasOwnProperty('link')){
+          materials.push(assignmentTBS.materials[i])
+        } else if(assignmentTBS.materials[i].hasOwnProperty('form')){
+          materials.push({link: {url: assignmentTBS.materials[i].form.formUrl, title: assignmentTBS.materials[i].form.title, thumbnailUrl: assignmentTBS.materials[i].form.thumbnailUrl}})
+        }
+      }
+      assignment["materials"] = materials //optional
     }
     if (assignmentTBS.dueDate) {
       assignment["dueDate"] = assignmentTBS.dueDate //optional
@@ -39,6 +48,7 @@ function duplicateAssignments(assignmentId, originalClassroom, classrooms) {
     if (assignmentTBS.multipleChoiceQuestion) {
       assignment["multipleChoiceQuestion"] = assignmentTBS.multipleChoiceQuestion //optional
     }
+  Logger.log(assignment)
     Classroom.Courses.CourseWork.create(
       assignment, classroom)
   })
