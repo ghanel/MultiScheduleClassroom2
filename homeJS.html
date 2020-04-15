@@ -103,6 +103,8 @@
         document.getElementById("noPosts").style.display = "none"
         document.getElementById("newCourseDiv").style.display = "none"
         document.getElementById("course").selectedIndex = 0;
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
     }
 
     function failure(e) {
