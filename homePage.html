@@ -11,15 +11,31 @@
 
 <body>
   <div class="container">
+
     <div id="processing" class="progress">
       <div class="indeterminate"></div>
     </div>
     <div class="row">
       <div style="text-align: center;">
         <H5>Multi-schedule to Google Classroom</H5><br>
-        You must schedule your post to one classroom first. Then chose your course from the dropdown. Any scheduled
-        assignments will show. Select which you want to repost, then select the additional Classrooms which they
-        should be scheduled on.
+        <ul class="collapsible">
+         <li>
+           <div class="collapsible-header"><i class="material-icons">call_to_action</i>Instructions</div>
+           <div class="collapsible-body"><span>You must schedule your post to one classroom first. Then chose your course from the dropdown. 
+              Any scheduled assignments will show. Select which you want to repost, then select the additional Classrooms which they
+              should be scheduled on.  </span></div>
+         </li>
+         <li>
+           <div class="collapsible-header"><i class="material-icons">warning</i>Limitations</div>
+           <div class="collapsible-body"><span>Unfortunately, due to limitations of the Google Classroom API it is not currently possible to do the following<br>
+             1. Repost scheduled material type coursework<br>
+             2. Repost scheduled announcements on the stream<br>
+             3. Repost scheduled assignments containing Google Forms.  As a workaround the link to the form is used instead but this will lead to issues if you 
+             wish to use the Import Grades feature of quiz assignments<br>
+             4. Assignment settings related to Rubrics or Originality Reports are not transfered
+           </span></div>
+         </li>
+        </ul>
       </div>
     </div><!--   close row ---->
     <div class="row">
@@ -66,6 +82,9 @@
             class="material-icons right">chevron_right</i>Copy</button>
       </div>
     </div><!--   close row ---->
+    <div id="processing2" class="progress">
+      <div class="indeterminate"></div>
+    </div>
   </div> <!-- close container - -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"> </script>
   <script src="https://code.jquery.com/jquery.min.js"></script>

@@ -1,30 +1,30 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        $('#processing').show();
+        $('#processing, #processing2').show();
         document.getElementById("submitBtn").addEventListener("click", run);
         M.updateTextFields()
         var elems = document.querySelectorAll('select');
         var instances = M.FormSelect.init(elems);
+        var elems = document.querySelectorAll('.collapsible');
+        var instances = M.Collapsible.init(elems);
         document.getElementById("course").addEventListener("change", function (e) {
-            $('#processing').show();
+            $('#processing, #processing2').show();
             getScheduledPosts(e.target.value)
         });
-        $('#processing').hide();
+        $('#processing, #processing2').hide();
     });
 
 
     function run() {
-        $('#processing').show();
+        $('#processing, #processing2').show();
         var assignments = [].filter.call(document.getElementsByName('postSelection[]'), (c) => c.checked).map(c => c
             .value + ":" + c.id);
-        console.log(assignments)
         var elem = document.getElementById('newCourses')
         var instance = M.FormSelect.getInstance(elem)
         var courses = instance.getSelectedValues()
         console.log(courses)
         var elem = document.getElementById('course')
         var originalClassroom = elem.value
-        console.log(originalClassroom)
         google.script.run.withSuccessHandler(success).withFailureHandler(failure).processCopy(assignments, courses,
             originalClassroom)
     }
@@ -91,23 +91,24 @@
                 tableBody.appendChild(row);
             })
         }
-        $('#processing').hide();
+        $('#processing, #processing2').hide();
     }
 
     function success() {
         M.toast({
             html: "Posts have been copied!"
         });
-        $('#processing').hide();
+        $('#processing, #processing2').hide();
         document.getElementById("postTable").style.display = "none"
         document.getElementById("noPosts").style.display = "none"
         document.getElementById("newCourseDiv").style.display = "none"
+        document.getElementById("course").selectedIndex = 0;
     }
 
     function failure(e) {
         M.toast({
             html: 'Something has gone wrong.  Please contact IT: ' + e
         });
-        $('#processing').hide();
+        $('#processing, #processing2').hide();
     }
 </script>

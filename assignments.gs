@@ -4,10 +4,8 @@ function getAssignment(assignmentId, classroomId) {
 
 function duplicateAssignments(assignmentId, originalClassroom, classrooms) {
   let assignmentTBS = getAssignment(assignmentId, originalClassroom)
-  Logger.log(assignmentTBS)
   if (assignmentTBS.topicId) {
     var topicName = getTopicName(assignmentTBS.courseId, assignmentTBS.topicId)
-    Logger.log(topicName)
   }
   classrooms.forEach(classroom => {
     let assignment = {
@@ -19,6 +17,7 @@ function duplicateAssignments(assignmentId, originalClassroom, classrooms) {
       assignment["description"] = assignmentTBS.description //optional
     }
     if (assignmentTBS.materials) {
+      //you can't add Forms to an assignment via the api.  Workaround is to add them as a link
       var materials = []
       for (var i=0; i<assignmentTBS.materials.length; i++){
         if (assignmentTBS.materials[i].hasOwnProperty('driveFile') || assignmentTBS.materials[i].hasOwnProperty('youtubeVideo') || assignmentTBS.materials[i].hasOwnProperty('link')){
@@ -48,7 +47,6 @@ function duplicateAssignments(assignmentId, originalClassroom, classrooms) {
     if (assignmentTBS.multipleChoiceQuestion) {
       assignment["multipleChoiceQuestion"] = assignmentTBS.multipleChoiceQuestion //optional
     }
-  Logger.log(assignment)
     Classroom.Courses.CourseWork.create(
       assignment, classroom)
   })

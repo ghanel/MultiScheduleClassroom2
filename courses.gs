@@ -29,6 +29,5 @@ function sortFunction(a, b) {
 function courseArray() {
   let courses = getCourses()
   let courseOptions = courses.map(r => '<option value="' + r.id + '">' + r.name + '</option>').join('');
-  Logger.log(courseOptions)
   return courseOptions
 }
